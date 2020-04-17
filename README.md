@@ -1,4 +1,4 @@
-##Summary
+## Summary
 
 This project pulls room booking data from a remote JSON endpoint. It then provides a basic toggling interface to pick a date and show the bookings and their associated room images for that selected date. 
 
@@ -10,12 +10,12 @@ In the main Application class, the project uses oboe.js to incrementally grab ea
 
 The project only contains rudimentary CSS styling, and is not meant to reflect the visuals of a finalized project.
 
-##Dependencies
+## Dependencies
 
 This project relies on the Create React App build provided by Facebook (https://create-react-app.dev/docs/getting-started). In order to use it, node and npm should be installed. Additionally, this project relies on oboe.js for downloading JSON from a remote endpoint. oboe.js can also be installed with npm (http://oboejs.com/download).
 
 
-##Instructions for using Create React App provided by React:
+## Instructions for using Create React App provided by React:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

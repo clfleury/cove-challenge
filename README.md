@@ -1,3 +1,22 @@
+##Summary
+
+This project pulls room booking data from a remote JSON endpoint. It then provides a basic toggling interface to pick a date and show the bookings and their associated room images for that selected date. 
+
+A user can also submit booking data to show a new booking when the application is open. This data does not currently persist between sessions, but could theoretically include local storage persistence, and eventually server-side storage, of such data. This data is currently added to the existing data set that is copied from the remote endpoint by the application. 
+
+The project uses React to separate the main JSON downloading and parsing logic from the form field logic. It also allows all client-side interactive logic and markup to exist in a single location.
+
+In the main Application class, the project uses oboe.js to incrementally grab each JSON object from the provided endpoint. This allows the user to see all of the data that the app has downloaded at a given point even if the entire JSON fails to download. A warning is displayed to the user that not all data is available. This logic can act as a fallback in the event that a large endpoint fails to download, or the user loses their internet connection.
+
+The project only contains rudimentary CSS styling, and is not meant to reflect the visuals of a finalized project.
+
+##Dependencies
+
+This project relies on the Create React App build provided by Facebook (https://create-react-app.dev/docs/getting-started). In order to use it, node and npm should be installed. Additionally, this project relies on oboe.js for downloading JSON from a remote endpoint. oboe.js can also be installed with npm (http://oboejs.com/download).
+
+
+##Instructions for using Create React App provided by React:
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

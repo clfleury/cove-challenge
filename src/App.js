@@ -1,8 +1,33 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 
 var oboe = require('oboe');
+
+var daysOfWeek = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday'
+];
+
+var months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
 
 class SubmitNewBooking extends React.Component {
   constructor(props){
@@ -51,7 +76,7 @@ class SubmitNewBooking extends React.Component {
       var endTime = new Date(this.state.date + 'T' + this.state.endTime + ':00');
       var formattedEndTime = endTime.toISOString();
 
-      //Image URLs - this currently assumes only these two rooms are available in the data set
+      //Image URLs - this currently assumes only these two rooms are available in the data set - wow, I've explained this can be expanded mothufucker
       var roomAURL = "https://staging.cove.is/parse/files/hRKEvW2lN74k5nCg6p2XtmiWRNHycE2pHpXpELMX/f96efd3f11aadb34135bb1f0aecf9667_Quincy%20Room.jpg";
       var roomBURL = "https://staging.cove.is/parse/files/hRKEvW2lN74k5nCg6p2XtmiWRNHycE2pHpXpELMX/d0d19da4aa88734291279f5fe7a836e7_Wakefield%20Room.jpg";
 
@@ -95,6 +120,125 @@ class SubmitNewBooking extends React.Component {
   }
 }
 
+class RoomTitle extends React.Component {
+  render(){
+    return (
+      <h2>Studio 301</h2>
+    )
+  }
+}
+class AppTitle extends React.Component {
+  render(){
+    return (
+      <h1>Room Bookings</h1>
+    )
+  }
+}
+
+class MonthToggles extends React.Component {
+
+  render(){
+    return (
+      <div>
+        {months[this.props.currentDate.getMonth()]}
+        <button onClick={() => this.props.toggleMonth('Last')}>Last</button>
+        <button onClick={() => this.props.toggleMonth('Next')}>Next</button>
+      </div>
+    )
+  }
+}
+
+class Calendar extends React.Component {
+
+ constructor(props) {
+   super(props);
+
+   var today = new Date();
+
+   this.state = {
+     today: today,
+     currentDate: today
+   }
+ }
+
+ toggleMonth = (direction) => {
+   switch(direction) {
+     case 'Last':
+      this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() - 1, 1)}));
+     break;
+     case 'Next':
+      this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() + 1, 1)}));
+     break;
+   }
+ }
+
+  generateWeekDays = () => {
+
+    var returnValue = [];
+    for(var i = 0; i < daysOfWeek.length; i++){
+      returnValue.push(<div className="weekdays">{daysOfWeek[i]}</div>);
+    }
+    return (returnValue);
+  }
+
+  generateStartDate(currentDate){
+    var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    var startDay = firstDayOfMonth.getDay();
+
+    return startDay;
+  }
+
+  generateEndDate(currentDate){
+    var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    var endDate = lastDayOfMonth.getDate();
+
+    return endDate;
+  }
+
+  generateDateContainers = () => {
+    var returnValue = [];
+    var dayValue = null;
+    var monthLength = this.generateEndDate(this.state.currentDate);
+
+    /*The maximum number of rows a month can have is 6*/
+    for(var m = 0; m < 6; m++){
+      for(var j = 0; j < 7; j++){
+
+        /*Start numbering boxes based on starting day of week, increment until we reach the last day of the month*/
+        if(m === 0 && j === this.generateStartDate(this.state.currentDate)){
+          dayValue = 1;
+        } else if (dayValue > 0 && dayValue < monthLength) {
+          dayValue += 1;
+        } else if (dayValue === monthLength) {
+          dayValue = null;
+        }
+
+        returnValue.push(<div className="grid-item">{dayValue}</div>);
+      }
+
+      /*Prevents the loop from creating an empty week if dayValue has been reset to null*/
+      if (m > 0 && dayValue === null) {
+        break;
+      }
+    }
+    return (returnValue);
+  }
+
+  render(){
+    return (
+      <div className="calendar-container">
+        <MonthToggles currentDate={this.state.currentDate} toggleMonth={this.toggleMonth} />
+        <div className="calendar-background">
+        <div className="calendar-grid grid grid-template--seven">
+          {this.generateWeekDays()}
+          {this.generateDateContainers()}
+        </div>
+        </div>
+      </div>
+    )
+  }
+}
+
 
 class App extends React.Component {
 
@@ -112,23 +256,22 @@ class App extends React.Component {
   //After the component mounts, oboe.js is used to call of the data from the endpoint
   //it uses progressive streaming to allow for partial data retention if the JSON fails to fully load
   componentDidMount(){
-    let _this = this; //give oboe.js access to the parent component's state
     oboe('https://cove-coding-challenge-api.herokuapp.com/reservations')
-    .node('!.*', function( booking ){
+    .node('!.*', ( booking ) => {
 
-      let newBookings = _this.state.bookings;
+      let newBookings = this.state.bookings;
 
       // This callback will be called everytime a new object is found
-      _this.setState(prev=>({ bookings: newBookings.concat(booking), success: 'processing' }));
+      this.setState(prev=>({ bookings: newBookings.concat(booking), success: 'processing' }));
 
    })
-     .done(function(things) {
+     .done((things) => {
         //Successfully retrieved json
-        _this.setState({ bookings: things, success: 'success' });
+        this.setState({ bookings: things, success: 'success' });
      })
-     .fail(function() {
+     .fail(() => {
         // JSON Retrieval Failed
-        _this.setState({ success: 'failure' });
+        this.setState({ success: 'failure' });
      });
   }
 
@@ -191,11 +334,19 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <header className="App-header">
+          <div className="header-block grid grid-template--two">
+            <div className="title">
+              <RoomTitle />
+              <AppTitle />
+            </div>
+            <div className="menu">
+              <button>Book a Room</button>
+            </div>
+          </div>
+          <Calendar />
           <button className='date-toggle-left' style={{float: 'left'}} onClick={this.toggleDatePast}>Yesterday</button>
           <p>{formattedDate}</p>
           <button className='date-toggle-right' style={{float: 'right'}} onClick={this.toggleDateFuture}>Tommorrow</button>
-        </header>
         <div style={{display: 'flex'}}>
             { this.failureMessage() }
             {showBookings.length > 0 ? showBookings.map(function(data, key){
@@ -209,7 +360,7 @@ class App extends React.Component {
             )
           }, this) : <p className='centered-p'>No bookings on this date.</p> }
         </div>
-        <SubmitNewBooking updateArray={this.updateArray}  />
+        {/*<SubmitNewBooking updateArray={this.updateArray}  />*/}
       </div>
     );
   }

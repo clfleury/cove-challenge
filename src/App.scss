@@ -1,0 +1,183 @@
+/*Define Variables*/
+:root {
+  --w-container: 1640px;
+  --w-container-margin: 50px 30px;
+  --font-size: 16px;
+
+  --ff-heading: 'Merriweather', serif;
+	--ff-body: 'Merriweather', serif;
+
+  --font-size-normal: 1rem; /*16px*/
+  --font-size-larger: 1.3rem; /*20px*/
+  --font-size-largest: 1.6rem; /*24px*/
+
+  --font-weight-light: 300;
+  --font-weight-normal: 500;
+  --font-weight-heavy: 700;
+
+  /*Line Heights*/
+  --lh-base: 1.2;
+  --lh-large: 1.5;
+
+  /*Colors*/
+  --c-dark-blue: #13284B;
+  --c-light-gray: #E9EBEE;
+  --c-light-blue: #F5F7FB;
+  --c-medium-blue-gray: #BDC6D5;
+  --c-white: #ffffff;
+
+  /*Component Padding*/
+  --header-comp-bottom-padding: 25px;
+
+  /*Border Radii*/
+  --border-corners-normal: 10px;
+
+  /*Shadow*/
+  --box-shadow: 3px 3px 3px #dddddd;
+}
+
+/*Import Fonts*/
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900&display=swap');
+
+/*Resets*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+  font-family: var(--ff-body);
+  color: var(--c-dark-blue);
+}
+button {
+  padding: 10px;
+  background-color: #fff;
+  border: 3px solid var(--c-dark-blue);
+  font-family: var(--ff-body);
+  font-size: var(--font-size-normal);
+  border-radius: var(--border-corners-normal);
+  color: var(--c-dark-blue);
+}
+
+/*Room Title Header Component*/
+h2 {
+  font-size: var(--font-size-larger);
+  font-weight: var(--font-weight-light);
+}
+/*App Title Header Component*/
+h1 {
+  font-size: var(--font-size-largest);
+  font-weight: var(--font-weight-heavy);
+}
+.header-block {
+  border-bottom: solid 2px var(--c-dark-blue);
+  padding-bottom: var(--header-comp-bottom-padding);
+  max-width: 450px;
+}
+
+.grid {
+  @supports (display: grid) {
+  	display: grid;
+  }
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		align-items: center;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin-bottom: 16px; /* IE11 Fallback */
+	}
+}
+.grid * {
+  position: relative;
+}
+.grid button {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 10px 25px;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+
+.grid-template--two {
+
+  & > .grid-item {
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      flex: 0 0 auto;
+      width: calc(50% - 16px); /* IE11 Fallback */
+    }
+  }
+  @supports (display: grid) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.grid-template--seven {
+
+	& > .grid-item {
+    min-height: 130px;
+    border: 1px solid var(--c-light-gray);
+    background-color: var(--c-light-blue);
+
+		@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+			flex: 0 0 auto;
+			width: calc(14.3333% - 16px); /* IE11 Fallback */
+		}
+	}
+	@supports (display: grid) {
+			grid-template-columns: repeat(7, 1fr);
+	}
+}
+.calendar-container {
+  padding-top: 30px;
+}
+.calendar-grid {
+  background-color: var(--c-white);
+  border-radius: var(--border-corners-normal);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--c-medium-blue-gray);
+}
+
+.App {
+  max-width: var(--w-container);
+  margin: 0 auto;
+  font-size: var(--font-size);
+  font-family: var(--ff-heading);
+  color: var(--c-dark-blue);
+  margin: var(--w-container-margin);
+}
+
+.App-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.weekdays {
+  text-align: center;
+  font-weight: var(--font-weight-heavy);
+  padding: 10px;
+}
+.centered-p {
+  text-align: center;
+  width: 100%;
+}
+.App-link {
+  color: #61dafb;
+}

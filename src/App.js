@@ -200,6 +200,10 @@ class Calendar extends React.Component {
     var dayValue = null;
     var monthLength = this.generateEndDate(this.state.currentDate);
 
+    //Initialize collected json data
+    var displayBookings = this.props.bookings;
+
+
     /*The maximum number of rows a month can have is 6*/
     for(var m = 0; m < 6; m++){
       for(var j = 0; j < 7; j++){
@@ -213,7 +217,26 @@ class Calendar extends React.Component {
           dayValue = null;
         }
 
-        returnValue.push(<div className="grid-item">{dayValue}</div>);
+        var dayBookings = displayBookings.filter(function(data){
+          var date = new Date(data.start);
+          var dateComparison = new Date(this.state.currentDate.getFullYear(), this.state.currentDate.getMonth());
+                      console.log(dateComparison);
+          date.setHours(0,0,0,0);
+          dateComparison.setHours(0,0,0,0);
+          dateComparison.setDate(dayValue);
+          return date.getTime() == dateComparison.getTime()
+        }, this);
+
+        var bookingVisuals = [];
+        dayBookings.forEach(function(data){
+          var startDate = new Date(data.start);
+          var endDate = new Date(data.end);
+          var formattedStartDate = this.props.convertHours(startDate.getHours());
+          var formattedEndDate = this.props.convertHours(endDate.getHours());
+          bookingVisuals.push(<div className="booking">{formattedStartDate} - {formattedEndDate} {data.room.name}</div>);
+        }, this);
+
+        returnValue.push(<div className="grid-item">{dayValue}{bookingVisuals}</div>);
       }
 
       /*Prevents the loop from creating an empty week if dayValue has been reset to null*/
@@ -273,6 +296,16 @@ class App extends React.Component {
         // JSON Retrieval Failed
         this.setState({ success: 'failure' });
      });
+  }
+
+  //This converts hours to standard 1-12 values from 1-24 values and adds AM/PM delineators
+  convertHours = (providedTime) => {
+    if(providedTime > 12) {
+      return providedTime - 12 + 'pm';
+    } else if(providedTime === 12) {
+      return providedTime + 'pm';
+    }
+    return providedTime + 'am';
   }
 
   //Set state to yesterday
@@ -343,7 +376,7 @@ class App extends React.Component {
               <button>Book a Room</button>
             </div>
           </div>
-          <Calendar />
+          <Calendar bookings={displayBookings} convertHours={this.convertHours} />
           <button className='date-toggle-left' style={{float: 'left'}} onClick={this.toggleDatePast}>Yesterday</button>
           <p>{formattedDate}</p>
           <button className='date-toggle-right' style={{float: 'right'}} onClick={this.toggleDateFuture}>Tommorrow</button>

@@ -4,31 +4,6 @@ import './App.scss';
 
 var oboe = require('oboe');
 
-var daysOfWeek = [
-  'sunday',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday'
-];
-
-var months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-]
-
 class SubmitNewBooking extends React.Component {
   constructor(props){
     super(props);
@@ -136,11 +111,31 @@ class AppTitle extends React.Component {
 }
 
 class MonthToggles extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      months: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ]
+    }
+  }
 
   render(){
     return (
       <div>
-        {months[this.props.currentDate.getMonth()]}
+        {this.state.months[this.props.currentDate.getMonth()]}
         <button onClick={() => this.props.toggleMonth('Last')}>Last</button>
         <button onClick={() => this.props.toggleMonth('Next')}>Next</button>
       </div>
@@ -157,17 +152,26 @@ class Calendar extends React.Component {
 
    this.state = {
      today: today,
-     currentDate: today
+     currentDate: today,
+     daysOfWeek: [
+       'sunday',
+       'monday',
+       'tuesday',
+       'wednesday',
+       'thursday',
+       'friday',
+       'saturday'
+     ]
    }
  }
 
  toggleMonth = (direction) => {
    switch(direction) {
      case 'Last':
-      this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() - 1, 1)}));
+        this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() - 1, 1)}));
      break;
      case 'Next':
-      this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() + 1, 1)}));
+        this.setState(prev=>({currentDate: new Date(prev.currentDate.getFullYear(), prev.currentDate.getMonth() + 1, 1)}));
      break;
    }
  }
@@ -175,8 +179,8 @@ class Calendar extends React.Component {
   generateWeekDays = () => {
 
     var returnValue = [];
-    for(var i = 0; i < daysOfWeek.length; i++){
-      returnValue.push(<div className="weekdays">{daysOfWeek[i]}</div>);
+    for(var i = 0; i < this.state.daysOfWeek.length; i++){
+      returnValue.push(<div className="weekdays">{this.state.daysOfWeek[i]}</div>);
     }
     return (returnValue);
   }
@@ -233,7 +237,7 @@ class Calendar extends React.Component {
           var endDate = new Date(data.end);
           var formattedStartDate = this.props.convertHours(startDate.getHours());
           var formattedEndDate = this.props.convertHours(endDate.getHours());
-          bookingVisuals.push(<div className="booking">{formattedStartDate} - {formattedEndDate} {data.room.name}</div>);
+          bookingVisuals.push(<div className="booking"><span className="times">{formattedStartDate} - {formattedEndDate}</span> {data.room.name}</div>);
         }, this);
 
         returnValue.push(<div className="grid-item">{dayValue}{bookingVisuals}</div>);

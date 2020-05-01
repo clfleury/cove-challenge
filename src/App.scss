@@ -31,6 +31,8 @@
 
   /*Border Radii*/
   --border-corners-normal: 10px;
+  --border-corners-small: 5px;
+  --border-corners-smallest: 3px;
 
   /*Shadow*/
   --box-shadow: 3px 3px 3px #dddddd;
@@ -174,10 +176,17 @@ h1 {
   font-weight: var(--font-weight-heavy);
   padding: 10px;
 }
-.centered-p {
-  text-align: center;
-  width: 100%;
+.booking {
+  border-radius: var(--border-corners-small);
+  border: 2px solid var(--c-dark-blue);
+  padding: 2px 2px 2px 0px;
+  margin-bottom: 4px;
+  background-color: var(--c-white);
 }
-.App-link {
-  color: #61dafb;
+.times {
+  background-color: var(--c-dark-blue);
+  color: var(--c-white);
+  border-radius: var(--border-corners-smallest);
+  padding: 2px 5px;
+  font-weight: var(--font-weight-heavy);
 }

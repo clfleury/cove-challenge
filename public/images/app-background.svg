@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <clipPath id="clip-Web_1920_6">
+      <rect width="1920" height="1080"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1920_6" data-name="Web 1920 – 6" clip-path="url(#clip-Web_1920_6)">
+    <rect width="1920" height="1080" fill="#fff"/>
+    <path id="Path_5" data-name="Path 5" d="M6099,1977.148s-69.234,60.867-141.641,81.8S5801.328,1610.5,5801.328,1610.5l84.844-129.945s125.141-61.437,173.922,21.266,102.664,35.891,102.664,35.891Z" transform="translate(-4179 -1420)" fill="#bad4a6"/>
+    <path id="Path_6" data-name="Path 6" d="M6080.656,1586s-186.742,132.969-246.531,316.1" transform="translate(-4116 -1441)" fill="none" stroke="rgba(18,64,10,0.06)" stroke-linecap="round" stroke-width="10"/>
+    <rect id="Rectangle_67" data-name="Rectangle 67" width="2166" height="1080" transform="translate(-215)" fill="#eff1f4"/>
+    <g id="Group_19" data-name="Group 19">
+      <path id="Polygon_6" data-name="Polygon 6" d="M747.5,0,1495,1276H0Z" transform="translate(1007 -181)" fill="rgba(242,244,224,0.64)"/>
+      <path id="Polygon_9" data-name="Polygon 9" d="M747.5,0,1495,1276H0Z" transform="translate(-149.726 -694.354) rotate(60)" fill="rgba(242,244,224,0.64)"/>
+      <path id="Polygon_8" data-name="Polygon 8" d="M747.5,0,1495,1276H0Z" transform="translate(-444 -181)" fill="#e0e9f4"/>
+      <path id="Polygon_7" data-name="Polygon 7" d="M747.5,0,1495,1276H0Z" transform="translate(1775 1234) rotate(180)" fill="#e5f3ef"/>
+      <ellipse id="Ellipse_5" data-name="Ellipse 5" cx="1071.5" cy="1020" rx="1071.5" ry="1020" transform="translate(-97 122)" fill="rgba(60,137,242,0.08)"/>
+    </g>
+    <path id="Polygon_10" data-name="Polygon 10" d="M747.5,0,1495,1276H0Z" transform="translate(3336 1142) rotate(180)" fill="#e0e9f4"/>
+  </g>
+</svg>

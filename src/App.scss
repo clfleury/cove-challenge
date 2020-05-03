@@ -30,12 +30,16 @@
   --header-comp-bottom-padding: 25px;
 
   /*Border Radii*/
+  --border-corners-large: 20px;
   --border-corners-normal: 10px;
   --border-corners-small: 5px;
-  --border-corners-smallest: 3px;
+  --border-corners-smallest: 2.5px;
 
   /*Shadow*/
   --box-shadow: 3px 3px 3px #dddddd;
+
+  /*Animations*/
+  --general-transition: all 0.1s cubic-bezier(0.1, 0.7, 1.0, 0.1);
 }
 
 /*Import Fonts*/
@@ -73,6 +77,10 @@ button {
   border-radius: var(--border-corners-normal);
   color: var(--c-dark-blue);
 }
+body {
+  background-image: url('/images/app-background.svg');
+  background-position: top center;
+}
 
 /*Room Title Header Component*/
 h2 {
@@ -106,7 +114,10 @@ h1 {
 .grid * {
   position: relative;
 }
-.grid button {
+.grid .right-align {
+  justify-self: end;
+}
+.menu button {
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -154,7 +165,6 @@ h1 {
   box-shadow: var(--box-shadow);
   border: 1px solid var(--c-medium-blue-gray);
 }
-
 .App {
   max-width: var(--w-container);
   margin: 0 auto;
@@ -163,13 +173,40 @@ h1 {
   color: var(--c-dark-blue);
   margin: var(--w-container-margin);
 }
-
 .App-header {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.toggle-left, .toggle-right, .toggle-month, .toggle-day {
+  border-radius: 0px;
+  border: 1px solid var(--c-medium-blue-gray);
+  transition: var(--general-transition);
+  -webkit-transition: var(--general-transition);;
+  -moz-transition: var(--general-transition);;
+  -o-transition: var(--general-transition);
+}
+.toggle-left, .toggle-month {
+  border-top-left-radius: var(--border-corners-large);
+  border-bottom-left-radius: var(--border-corners-large);
+  margin-bottom: 10px;
+}
+.toggle-right, .toggle-day {
+  border-bottom-right-radius: var(--border-corners-large);
+  border-top-right-radius: var(--border-corners-large);
+  border-left: none;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.toggle-left img, .toggle-right img {
+  width: 15px;
+  margin-top: 3px;
+}
+.active-toggle {
+  background-color: var(--c-medium-blue-gray);
+  border-color: var(--c-medium-blue-gray);
 }
 .weekdays {
   text-align: center;

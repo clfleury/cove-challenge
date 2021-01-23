@@ -6,16 +6,13 @@ class DayView extends React.Component {
     //Format the currently selected date for display
     var formattedDate = this.props.currentDate.getFullYear()+'-'+(this.props.currentDate.getMonth()+1)+'-'+this.props.currentDate.getDate();
 
-    console.log(this.props.showBookings);
-
     var roomSet = Array.from(new Set(this.props.showBookings.map((item) => {return {name: item.room.name, imageURL: item.room.imageUrl}} )));
-    console.log(roomSet);
 
     return(
       <div>
-        <button className='date-toggle-left' style={{float: 'left'}} onClick={() => this.props.toggleDate('Past')}>Yesterday</button>
+        <button className='toggle-left' onClick={() => this.props.toggleDate('Past')}><img src="/images/left-arrow.svg" alt="left arrow to view yesterday's data" /></button>
+        <button className='toggle-right' onClick={() => this.props.toggleDate('Future')}><img src="/images/right-arrow.svg" alt="right arrow to view tommorow's data" /></button>
         <p>{formattedDate}</p>
-        <button className='date-toggle-right' style={{float: 'right'}} onClick={() => this.props.toggleDate('Future')}>Tommorrow</button>
           <div className="calendar-background">
           <div className="calendar-grid calendar-grid--dayview">
             { this.props.failureMessage() }

@@ -53,6 +53,24 @@ class MonthToggles extends React.Component {
   }
 }
 
+class DayToggles extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+     //Format the currently selected date for display
+     var formattedDate = this.props.currentDate.getFullYear()+'-'+(this.props.currentDate.getMonth()+1)+'-'+this.props.currentDate.getDate();
+    return (
+      <div>
+        <button className='toggle-left' onClick={() => this.props.toggleDate('Past')}><img src="/images/left-arrow.svg" alt="left arrow to view yesterday's data" /></button>
+<button className='toggle-right' onClick={() => this.props.toggleDate('Future')}><img src="/images/right-arrow.svg" alt="right arrow to view tommorow's data" /></button>
+{formattedDate}
+      </div>
+    )
+  }
+}
+
 class ViewToggles extends React.Component {
 
   render(){
@@ -339,7 +357,10 @@ class App extends React.Component {
           </div>
           <div className="calendar-container">
               <div className="grid grid-template--two">
+                <div>
                 <MonthToggles currentDate={this.state.currentDate} toggleMonth={this.toggleMonth} />
+                <DayToggles toggleDate={this.toggleDate} convertHours={this.convertHours} currentDate={this.state.currentDate} />
+                </div>
                 <ViewToggles updateActiveState={this.updateActiveState} active={this.state.active} />
               </div>
           { (() => {

@@ -257,6 +257,9 @@ h1 {
 .active-toggle svg path {
   fill: var(--c-white);
 }
+.month-name {
+  margin-right: 15px;
+}
 .weekdays, .room-name {
   text-align: center;
   font-weight: var(--font-weight-heavy);
@@ -280,3 +283,17 @@ h1 {
 .rooms__roomBlock {
   background-color: var(--c-light-blue);
 }
+.room-times {
+  border-bottom: 1px solid #BDC6D5;
+  display: flex;
+  align-items: stretch;
+  .time {
+    width: 20%;
+  }
+  .time-designation {
+    display: inline-block;
+    width: 80%;
+    background-color: #13284B;
+  }
+}
+

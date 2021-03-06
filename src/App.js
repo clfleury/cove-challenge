@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './App.scss';
 import SubmitNewBooking from './SubmitNewBooking';
 import DayView from './DayView';
@@ -44,11 +44,11 @@ class MonthToggles extends React.Component {
 
   render(){
     return (
-      <div>
+      <Fragment>
         <button className="toggle-left" onClick={() => this.props.toggleMonth('Last')}><img src="/images/left-arrow.svg" alt="left arrow to view last month's data" /></button>
         <button className="toggle-right" onClick={() => this.props.toggleMonth('Next')}><img src="/images/right-arrow.svg" alt="right arrow to view next month's data" /></button>
-        {this.state.months[this.props.currentDate.getMonth()]}
-      </div>
+        <span className="month-name">{this.state.months[this.props.currentDate.getMonth()]}</span>
+      </Fragment>
     )
   }
 }
@@ -62,11 +62,11 @@ class DayToggles extends React.Component {
      //Format the currently selected date for display
      var formattedDate = this.props.currentDate.getFullYear()+'-'+(this.props.currentDate.getMonth()+1)+'-'+this.props.currentDate.getDate();
     return (
-      <div>
+      <Fragment>
         <button className='toggle-left' onClick={() => this.props.toggleDate('Past')}><img src="/images/left-arrow.svg" alt="left arrow to view yesterday's data" /></button>
-<button className='toggle-right' onClick={() => this.props.toggleDate('Future')}><img src="/images/right-arrow.svg" alt="right arrow to view tommorow's data" /></button>
-{formattedDate}
-      </div>
+        <button className='toggle-right' onClick={() => this.props.toggleDate('Future')}><img src="/images/right-arrow.svg" alt="right arrow to view tommorow's data" /></button>
+        {formattedDate}
+      </Fragment>
     )
   }
 }
@@ -228,7 +228,8 @@ class App extends React.Component {
       currentDate: new Date(),
       success: 'waiting',
       savedObject: {},
-      active: 'month'
+      active: 'month',
+      rooms: []
     }
   }
 
@@ -344,6 +345,18 @@ class App extends React.Component {
       return date.getTime() === dateComparison.getTime()
     }, this);
 
+    //const rooms = [...new Set(this.state.bookings.map(item => {name: item.room.name, imageURL: item.room.imageUrl}))];
+    var rooms = Array.from(new Set(this.state.bookings.map((item) => {return {name: item.room.name, imageURL: item.room.imageUrl}} )));
+    let roomMap = new Map();
+
+    rooms.filter(el => { 
+      const val = roomMap.get(el.name); 
+      if(!val) { 
+        roomMap.set(el.name, el.imageURL); 
+        return true; 
+      }
+    });
+
     return (
       <div className="App">
           <div className="header-block grid grid-template--two">
@@ -359,7 +372,7 @@ class App extends React.Component {
               <div className="grid grid-template--two">
                 <div>
                 <MonthToggles currentDate={this.state.currentDate} toggleMonth={this.toggleMonth} />
-                <DayToggles toggleDate={this.toggleDate} convertHours={this.convertHours} currentDate={this.state.currentDate} />
+                {this.state.active === "day" ? <DayToggles toggleDate={this.toggleDate} convertHours={this.convertHours} currentDate={this.state.currentDate} /> : ''}
                 </div>
                 <ViewToggles updateActiveState={this.updateActiveState} active={this.state.active} />
               </div>
@@ -368,7 +381,7 @@ class App extends React.Component {
               case "month":
                 return <Calendar bookings={this.state.bookings} convertHours={this.convertHours} currentDate={this.state.currentDate} />
               case "day":
-                return <DayView active={this.state.active} convertHours={this.convertHours} failureMessage={this.failureMessage} showBookings={showBookings} toggleDate={this.toggleDate} currentDate={this.state.currentDate} />
+                return <DayView active={this.state.active} convertHours={this.convertHours} failureMessage={this.failureMessage} showBookings={showBookings} rooms={roomMap} toggleDate={this.toggleDate} currentDate={this.state.currentDate} />
               case "booking":
                 return <SubmitNewBooking updateArray={this.updateArray} />
               default:
